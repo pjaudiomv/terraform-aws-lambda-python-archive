@@ -43,8 +43,12 @@ def make_archive(src_dir, output_path):
             raise
 
     with zipfile.ZipFile(output_path, 'w') as archive:
+        paths = dict()
         for root, dirs, files in os.walk(src_dir):
-            for file in files:
+            paths[root] = files
+
+        for root in sorted(list(paths.keys())):
+            for file in sorted(paths[root]):
                 if file.endswith('.pyc'):
                     break
                 metadata = zipfile.ZipInfo(
